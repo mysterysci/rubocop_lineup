@@ -1,6 +1,4 @@
-# RubocopGit
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rubocop_git`. To experiment with that code, run `bin/console` for an interactive prompt.
+# RubocopLineup
 
 TODO: Delete this and the text above, and describe your gem
 
@@ -9,7 +7,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rubocop_git'
+gem 'rubocop_lineup'
 ```
 
 And then execute:
@@ -18,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rubocop_git
+    $ gem install rubocop_lineup
 
 ## Usage
 
@@ -32,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rubocop_git.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rubocop_lineup.
 
 ## License
 

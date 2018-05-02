@@ -1,11 +1,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "rubocop_git/version"
+require "rubocop_lineup/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "rubocop_git"
-  spec.version       = RubocopGit::VERSION
+  spec.name          = "rubocop_lineup"
+  spec.version       = RubocopLineup::VERSION
   spec.authors       = ["chrismo"]
   spec.email         = ["chrismo@clabs.org"]
 

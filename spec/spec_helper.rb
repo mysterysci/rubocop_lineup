@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "rubocop_git"
+require "rubocop_lineup"
 require_relative "git_fixture"
 
 RSpec.configure do |config|
