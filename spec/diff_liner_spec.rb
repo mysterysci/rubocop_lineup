@@ -17,8 +17,6 @@ RSpec.describe RubocopLineup::DiffLiner do
     it "single changed line" do
       gf.make_temp_repo do |dir|
         setup_file_edits('a.txt' => ['initial content', 'updated content'])
-        # TODO: the diff call will need to be made by a production class.
-        # TODO: \ swap in that class here instead of the fixture
         dl = RubocopLineup::DiffLiner.new(gf.diff)
         expect(dl.files).to eq ['a.txt']
         expect(dl.changed_line_numbers['a.txt']).to eq [1]
