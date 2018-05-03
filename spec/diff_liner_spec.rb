@@ -1,19 +1,19 @@
 require_relative 'spec_helper'
 
 RSpec.describe RubocopLineup::DiffLiner do
-  context "calculates lines of uncommitted files" do
-    let(:gf) { GitFixture.new }
+  let(:gf) { GitFixture.new }
 
-    def setup_file_edits(hash)
-      hash.each_pair do |filename, (initial_lines, _)|
-        gf.write_file(filename, initial_lines)
-      end
-      gf.commit_all
-      hash.each_pair do |filename, (_, new_lines)|
-        gf.write_file(filename, new_lines)
-      end
+  def setup_file_edits(hash)
+    hash.each_pair do |filename, (initial_lines, _)|
+      gf.write_file(filename, initial_lines)
     end
+    gf.commit_all
+    hash.each_pair do |filename, (_, new_lines)|
+      gf.write_file(filename, new_lines) if new_lines
+    end
+  end
 
+  context "calculates lines of uncommitted files" do
     it "single changed line" do
       gf.make_temp_repo do |dir|
         setup_file_edits('a.txt' => ['initial content', 'updated content'])
@@ -70,6 +70,21 @@ RSpec.describe RubocopLineup::DiffLiner do
         dl = RubocopLineup::DiffLiner.new(gf.diff)
         expect(dl.changed_line_numbers['a.txt']).to eq [2, 4]
         expect(dl.changed_line_numbers['b.txt']).to eq [1, 2]
+      end
+    end
+  end
+
+  context "calculates lines of all changes on branch" do
+    it "single changed line" do
+      gf.make_temp_repo do |dir|
+        setup_file_edits('a.txt' => [%w(a b c)])
+        # TODO: clean up this test
+        gf.git.branch('my_branch').checkout
+        setup_file_edits('a.txt' => [%w(a b c d e f)])
+        diff = gf.git.diff('master...', '-U0')
+        dl = RubocopLineup::DiffLiner.new(diff)
+        expect(dl.files).to eq ['a.txt']
+        expect(dl.changed_line_numbers['a.txt']).to eq [4, 5, 6]
       end
     end
   end

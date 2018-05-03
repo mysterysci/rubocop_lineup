@@ -2,6 +2,8 @@ require 'tmpdir'
 require 'git'
 
 class GitFixture
+  attr_reader :git
+
   def make_temp_repo
     Dir.mktmpdir('test_repo') do |dir|
       @dir = dir

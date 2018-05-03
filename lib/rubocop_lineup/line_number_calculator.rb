@@ -1,4 +1,5 @@
 module RubocopLineup
+  # This class depends on git diffs generated the with -U0 option.
   class LineNumberCalculator
     # presumes the text has been parsed already to just the -/+ bits
     # e.g. "-1 +1"

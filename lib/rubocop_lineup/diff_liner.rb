@@ -1,4 +1,5 @@
 module RubocopLineup
+  # This class depends on git diffs generated the with -U0 option.
   class DiffLiner
     def initialize(diff)
       @data = process(diff)
