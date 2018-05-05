@@ -31,4 +31,8 @@ class GitFixture
     @git.add(all: true)
     @git.commit(message, all: true)
   end
+
+  def checkout_branch(branch)
+    git.branch(branch).checkout
+  end
 end

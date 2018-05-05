@@ -13,13 +13,8 @@ module RubocopLineup
   def self.line_em_up(directory, parent_branch="master")
     git = Git.open(directory)
     Dir.chdir(directory) do
-      # The -U0 option is essential to how this gem works, since it eliminates
-      # any unchanged lines in the output, allowing for simple math based on
-      # the line number header in the git output.
-
-      # TODO: Push these lines into DiffLiner itself? Latest test could use it.
-      uncommitted_changes = DiffLiner.new(git.diff('HEAD', '-U0')).changed_line_numbers
-      committed_changes_on_branch = DiffLiner.new(git.diff("#{parent_branch}...", '-U0')).changed_line_numbers
+      uncommitted_changes = DiffLiner.diff_uncommitted.changed_line_numbers
+      committed_changes_on_branch = DiffLiner.diff_branch(parent_branch).changed_line_numbers
 
       # So, what happens when a file has committed changes AND uncommitted_changes?
       # A simple merge like this will overwrite the same filename.
