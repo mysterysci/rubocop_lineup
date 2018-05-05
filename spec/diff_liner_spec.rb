@@ -3,16 +3,6 @@ require_relative 'spec_helper'
 RSpec.describe RubocopLineup::DiffLiner do
   let(:gf) { GitFixture.new }
 
-  def setup_file_edits(hash)
-    hash.each_pair do |filename, (initial_lines, _)|
-      gf.write_file(filename, initial_lines)
-    end
-    gf.commit_all
-    hash.each_pair do |filename, (_, new_lines)|
-      gf.write_file(filename, new_lines) if new_lines
-    end
-  end
-
   context "calculates lines of uncommitted files" do
     it "single changed line" do
       gf.make_temp_repo do |dir|

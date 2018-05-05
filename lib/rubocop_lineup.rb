@@ -16,16 +16,11 @@ module RubocopLineup
       uncommitted_changes = DiffLiner.diff_uncommitted.changed_line_numbers
       committed_changes_on_branch = DiffLiner.diff_branch(parent_branch).changed_line_numbers
 
-      # So, what happens when a file has committed changes AND uncommitted_changes?
-      # A simple merge like this will overwrite the same filename.
-      #
-      # Since the uncommitted changes could have substantially altered the state
-      # of the file, the line numbers gathered from the committed files diff are
-      # not reliable anymore, so only the line numbers from the uncommitted changes
-      # will be analyzed. This could lead to unexpected behavior after the file
-      # is committed, and then line numbers from previous commits are re-analyzed.
-      #
-      # TODO: write up a test for all this mess ^^
+      # When a file has committed changes AND uncommitted_changes,
+      # we will only include the lines from the uncommitted changes
+      # because the lines in the previous committed changes may not
+      # be accurate anymore. See test suite for a sample case.
+
       committed_changes_on_branch.merge(uncommitted_changes)
     end
   end
