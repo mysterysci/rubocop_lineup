@@ -1,4 +1,3 @@
-
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "rubocop_lineup/version"
@@ -10,8 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["chrismo@clabs.org"]
 
   spec.summary       = %q{Rubocop plugin to restrict cops to only changed lines.}
-  # spec.description   = %q{TODO: Write a longer description or delete this line.}
-  # spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/mysterysci/rubocop_lineup"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
