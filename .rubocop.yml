@@ -1,0 +1,26 @@
+AllCops:
+  Exclude:
+  - "bin/**"
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: true
+  Max: 120
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: '()'
+    '%w': '()'
+
+Metrics/BlockLength:
+  Exclude:
+  - "spec/**"
+
+Style/Documentation:
+  Enabled: false

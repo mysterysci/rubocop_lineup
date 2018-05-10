@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe RubocopLineup do
   it "has a version number" do
     expect(RubocopLineup::VERSION).not_to be nil
@@ -8,9 +10,9 @@ RSpec.describe RubocopLineup do
   context "changes same file in prior commit and current working dir" do
     it "only shows uncommitted lines on a file with prior branch changes" do
       gf.make_temp_repo do |dir|
-        setup_file_edits('a.txt' => [%w(a b c d e f g h)])
-        gf.checkout_branch('my_branch')
-        setup_file_edits('a.txt' => [%w(a b c c1 c2 e f g1 g2 h),
+        setup_file_edits("a.txt" => [%w(a b c d e f g h)])
+        gf.checkout_branch("my_branch")
+        setup_file_edits("a.txt" => [%w(a b c c1 c2 e f g1 g2 h),
                                      %w(a b b1 b2 b3 c c1 e f g2 h)])
 
         # at this point, the changes adding c1, c2 and g1, g2 are
@@ -27,11 +29,11 @@ RSpec.describe RubocopLineup do
         # user could have rubocop skip over lines needing to be
         # reported until after they commit and then re-running
         # Rubocop.
-        expected = {'a.txt' => [3, 4, 5]}
+        expected = {"a.txt" => [3, 4, 5]}
         expect(RubocopLineup.line_em_up(dir)).to eq expected
 
         gf.commit_all
-        expected = {'a.txt' => [3, 4, 5, 7, 10]}
+        expected = {"a.txt" => [3, 4, 5, 7, 10]}
         expect(RubocopLineup.line_em_up(dir)).to eq expected
       end
     end

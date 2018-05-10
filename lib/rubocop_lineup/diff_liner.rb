@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 module RubocopLineup
   # This class depends on git diffs generated the with -U0 option.
   class DiffLiner
     def self.diff_uncommitted(dir = Dir.pwd)
-      self.new(diff_from(dir, "HEAD"))
+      new(diff_from(dir, "HEAD"))
     end
 
     def self.diff_branch(parent_branch, dir = Dir.pwd)
-      self.new(diff_from(dir, "#{parent_branch}..."))
+      new(diff_from(dir, "#{parent_branch}..."))
     end
 
     def self.diff_from(dir, obj)
@@ -14,7 +16,7 @@ module RubocopLineup
       # any unchanged lines in the output, allowing for simple math based on
       # the line number header in the git output.
 
-      Git.open(dir).diff(obj, '-U0')
+      Git.open(dir).diff(obj, "-U0")
     end
 
     # Expects a Git::Diff instance, which handles parsing diff output into files.
