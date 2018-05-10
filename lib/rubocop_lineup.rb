@@ -27,4 +27,8 @@ module RubocopLineup
       end
     end
   end
+
+  def self.reset
+    @line_em_up = nil
+  end
 end

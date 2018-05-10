@@ -34,6 +34,7 @@ RSpec.describe RubocopLineup do
 
         gf.commit_all
         expected = {"a.txt" => [3, 4, 5, 7, 10]}
+        RubocopLineup.reset
         expect(RubocopLineup.line_em_up(dir)).to eq expected
       end
     end
