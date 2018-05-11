@@ -3,7 +3,7 @@
 require "rubocop_lineup/version"
 require "rubocop_lineup/line_number_calculator"
 require "rubocop_lineup/diff_liner"
-require "rubocop_lineup/monkey_patch_rubocop"
+require "rubocop_lineup/duck_punch_rubocop"
 
 module RubocopLineup
   # This defaults the parent branch to 'master'. This is a reasonable
