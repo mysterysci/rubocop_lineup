@@ -1,6 +1,6 @@
 # RubocopLineup
 
-![Image of Old-Timey Police Lineup](https://commons.wikimedia.org/wiki/File:Oppstilling-2.jpg)
+![Image of Old-Timey Police Lineup](https://upload.wikimedia.org/wikipedia/commons/0/04/Oppstilling-2.jpg)
 
 If yer trying to bring in a new sheriff to the wild, wild west of your legacy codebase,
 there's gonna be some outlaws that are just too ornery to contend with. Better to just 
@@ -15,7 +15,7 @@ Also, you should know goin' in that we're duck punchin' into a sweet spot of the
 underbelly, and well, we just may get to fightin' in the future if them Rubocop folk
 get some fancy refactorin' ideas.
 
-Not to mention that some o' yer fancier deputies may get sidelined if they need more than
+Not to mention that some o' yer tougher deputies may get sidelined if they need more than
 a changed line to do thar job ... we'll just have to see about all that down the road.  
 
 I'm not sure how we fell into a old western theme here with a modern robot-type gem, but
@@ -43,8 +43,10 @@ To use it regular-like, add this to the
 [require section](https://github.com/bbatsov/rubocop/blob/master/manual/extensions.md#loading-extensions) 
 of .rubocop.yml:
 
+```yaml 
    require:
    - rubocop_lineup
+```
 
 If you only need to use it ever' now-n-again, inform yer rubocop with the 
 `-r rubocop_lineup` option.
