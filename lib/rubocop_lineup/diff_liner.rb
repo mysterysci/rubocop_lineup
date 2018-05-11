@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'git'
+require "git"
 
 module RubocopLineup
   # This class depends on git diffs generated the with -U0 option.
