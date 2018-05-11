@@ -1,37 +1,62 @@
 # RubocopLineup
 
-TODO: Delete this and the text above, and describe your gem
+![Image of Old-Timey Police Lineup](https://commons.wikimedia.org/wiki/File:Oppstilling-2.jpg)
+
+If yer trying to bring in a new sheriff to the wild, wild west of your legacy codebase,
+there's gonna be some outlaws that are just too ornery to contend with. Better to just 
+leave those scoundrels be that aren't in your crosshairs and let yer deputies focus on 
+what's at hand. 
+
+This gem presumes yer a-usin' git for yer revisionin' purposes. For now, it also figgers
+yer always branchin' from master, which, I know, I know, that ain't always how ever'body
+out here on the frontier likes to operate, but hey, we're just gettin' started here.
+
+Also, you should know goin' in that we're duck punchin' into a sweet spot of the Rubocop
+underbelly, and well, we just may get to fightin' in the future if them Rubocop folk
+get some fancy refactorin' ideas.
+
+Not to mention that some o' yer fancier deputies may get sidelined if they need more than
+a changed line to do thar job ... we'll just have to see about all that down the road.  
+
+I'm not sure how we fell into a old western theme here with a modern robot-type gem, but
+sometimes ... well, sometimes, the bear eats you.    
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this to yer Gemfile:
 
 ```ruby
 gem 'rubocop_lineup'
 ```
 
-And then execute:
+And then bundle that up:
 
     $ bundle
 
-Or install it yourself as:
+Or just put it in with all yer other gems if so inclined:
 
     $ gem install rubocop_lineup
 
 ## Usage
 
-TODO: Write usage instructions here
+To use it regular-like, add this to the 
+[require section](https://github.com/bbatsov/rubocop/blob/master/manual/extensions.md#loading-extensions) 
+of .rubocop.yml:
 
-## Development
+   require:
+   - rubocop_lineup
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+If you only need to use it ever' now-n-again, inform yer rubocop with the 
+`-r rubocop_lineup` option.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rubocop_lineup.
+We'd appreciate hearin' some of yer good ideas about our lil project here, and maybe
+even if'in you have a problemo or two with it, you might could get some help here 
+with that. Mosey over to the project at https://github.com/mysterysci/rubocop_lineup
+and have a shot or two with us.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+This gem is one o' them open source deals, and our danged lawyers told us we should 
+refer you to this here pronouncement: [MIT License](https://opensource.org/licenses/MIT).
