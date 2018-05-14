@@ -18,7 +18,13 @@ class GitFixture
   end
 
   def write_file(filename, content)
-    File.open(File.join(@dir, filename), "w") { |f| f.puts Array(content).join("\n") }
+    file_content = case content
+                   when Array
+                     Array(content).join("\n")
+                   else
+                     content
+                   end
+    File.open(File.join(@dir, filename), "w") { |f| f.puts file_content }
   end
 
   def diff

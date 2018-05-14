@@ -8,8 +8,17 @@ module DuckPunch
       source_file = processed_source.path.sub("#{Dir.pwd}/", "")
       files_hash = RubocopLineup.line_em_up(Dir.pwd)
       return false unless files_hash.key?(source_file)
+
+      offending_lines = (line_number..last_line).to_a
       changed_line_numbers = files_hash[source_file]
-      changed_line_numbers.include?(line_number) ? super : false
+      (changed_line_numbers & offending_lines).empty? ? false : super
+    end
+
+    def last_line
+      # find_location requires a location symbol in many cases, and usually
+      # this can be :expression, but each cop pretty much does its own thing
+      # so the hope is this method could be a definitive way to ID the end line.
+      processed_source.ast.loc.end.line
     end
   end
 end
