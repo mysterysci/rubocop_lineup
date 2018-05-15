@@ -7,6 +7,10 @@ RSpec.describe RubocopLineup do
 
   let(:gf) { GitFixture.new }
 
+  before do
+    RubocopLineup.reset
+  end
+
   context "changes same file in prior commit and current working dir" do
     it "only shows uncommitted lines on a file with prior branch changes" do
       gf.make_temp_repo do |dir|
@@ -29,11 +33,11 @@ RSpec.describe RubocopLineup do
         # user could have rubocop skip over lines needing to be
         # reported until after they commit and then re-running
         # Rubocop.
-        expected = {"a.txt" => [3, 4, 5]}
+        expected = {File.join(dir, "a.txt") => [3, 4, 5]}
         expect(RubocopLineup.line_em_up(dir)).to eq expected
 
         gf.commit_all
-        expected = {"a.txt" => [3, 4, 5, 7, 10]}
+        expected = {File.join(dir, "a.txt") => [3, 4, 5, 7, 10]}
         RubocopLineup.reset
         expect(RubocopLineup.line_em_up(dir)).to eq expected
       end

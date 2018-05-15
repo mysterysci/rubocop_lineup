@@ -25,3 +25,21 @@ def setup_file_edits(hash)
     gf.write_file(filename, new_lines) if new_lines
   end
 end
+
+module RubocopLineup
+  class DiffLiner
+    def strip_root!
+      @data_full_paths =
+        Hash[@data_full_paths.map { |k, v| [k.sub(%r{^#{@dir}/?}, ""), v] }]
+      self
+    end
+  end
+end
+
+class String
+  # ActiveSupport strip_heredoc
+  def outdent
+    indent = scan(/^[ \t]*(?=\S)/).min.size || 0
+    gsub(/^[ \t]{#{indent}}/, "")
+  end
+end
