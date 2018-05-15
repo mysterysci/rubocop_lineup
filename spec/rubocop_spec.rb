@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "spec_helper"
+
 RSpec.describe RuboCop do
   let(:gf) { GitFixture.new }
 
@@ -33,7 +35,7 @@ RSpec.describe RuboCop do
   end
 
   def initial_code
-    <<~_
+    <<-_.outdent
       def my_method
         # comment
       end
@@ -41,7 +43,7 @@ RSpec.describe RuboCop do
   end
 
   def abc_code
-    <<~_
+    <<-_.outdent
       def my_method
         a, b, c, d = (1..4).to_a
         a, b, c, d = (1..4).to_a

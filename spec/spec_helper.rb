@@ -35,3 +35,11 @@ module RubocopLineup
     end
   end
 end
+
+class String
+  # ActiveSupport strip_heredoc
+  def outdent
+    indent = scan(/^[ \t]*(?=\S)/).min.size || 0
+    gsub(/^[ \t]{#{indent}}/, "")
+  end
+end
