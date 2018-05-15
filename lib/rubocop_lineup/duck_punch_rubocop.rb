@@ -5,7 +5,7 @@ require "rubocop"
 module DuckPunch
   module CommentConfig
     def cop_enabled_at_line?(cop, line_number)
-      source_file = processed_source.path.sub("#{Dir.pwd}/", "")
+      source_file = processed_source.path
       files_hash = RubocopLineup.line_em_up(Dir.pwd)
       return false unless files_hash.key?(source_file)
 
@@ -21,6 +21,16 @@ module DuckPunch
       processed_source.ast.loc.end.line
     end
   end
+
+  module TargetFinder
+    def find(args)
+      # returns an array of full file paths that are the files to inspect.
+      files = super(args)
+      files_hash = RubocopLineup.line_em_up(Dir.pwd)
+      files & files_hash.keys
+    end
+  end
 end
 
 RuboCop::CommentConfig.prepend(DuckPunch::CommentConfig)
+RuboCop::TargetFinder.prepend(DuckPunch::TargetFinder)

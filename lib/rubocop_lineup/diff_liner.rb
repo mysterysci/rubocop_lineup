@@ -6,11 +6,11 @@ module RubocopLineup
   # This class depends on git diffs generated the with -U0 option.
   class DiffLiner
     def self.diff_uncommitted(dir = Dir.pwd)
-      new(diff_from(dir, "HEAD"))
+      new(diff_from(dir, "HEAD"), dir)
     end
 
     def self.diff_branch(parent_branch, dir = Dir.pwd)
-      new(diff_from(dir, "#{parent_branch}..."))
+      new(diff_from(dir, "#{parent_branch}..."), dir)
     end
 
     def self.diff_from(dir, obj)
@@ -22,26 +22,27 @@ module RubocopLineup
     end
 
     # Expects a Git::Diff instance, which handles parsing diff output into files.
-    def initialize(diff)
-      @data = process(diff)
+    def initialize(diff, dir)
+      @dir = dir
+      process(diff)
     end
 
-    def files
-      @data.keys
+    def filenames
+      @data_full_paths.keys
     end
 
-    def changed_line_numbers
-      @data
+    def file_line_changes
+      @data_full_paths
     end
 
     private
 
     def process(diff)
-      Hash[diff.map { |diff_file| process_diff_file(diff_file) }]
+      @data_full_paths = Hash[diff.map { |diff_file| process_diff_file(diff_file) }]
     end
 
     def process_diff_file(diff_file)
-      [diff_file.path,
+      [File.join(@dir, diff_file.path),
        calc_line_numbers(diff_file.patch.scan(/@@(.*)@@/).flatten)]
     end
 
