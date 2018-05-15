@@ -34,6 +34,21 @@ RSpec.describe RuboCop do
     end
   end
 
+  it "only checks changed files included in args" do
+    gf.make_temp_repo do |dir|
+      code = initial_code
+      setup_file_edits("foo.rb" => [code], "bar.rb" => [code], "qux.rb" => [abc_code])
+      gf.checkout_branch("my_branch")
+      setup_file_edits("foo.rb" => [abc_code], "bar.rb" => [abc_code])
+      output = File.join(dir, "offense_files.txt")
+      args = "-r rubocop_lineup -f files -o #{output} --only AbcSize foo.rb"
+      result = RuboCop::CLI.new.run(args.split(" "))
+      puts File.read output
+      expect(result).to eq RuboCop::CLI::STATUS_OFFENSES
+      expect(File.read(output).chomp).to eq File.join(dir, "foo.rb")
+    end
+  end
+
   def initial_code
     <<-_.outdent
       def my_method
