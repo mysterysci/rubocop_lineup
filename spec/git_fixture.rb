@@ -30,6 +30,10 @@ class GitFixture
     File.open(File.join(@dir, filename), "w") { |f| f.puts file_content }
   end
 
+  def delete_file(filename)
+    FileUtils.rm filename
+  end
+
   def commit_all(message = "test commit")
     @git.add(all: true)
     @git.commit(message, all: true)

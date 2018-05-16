@@ -56,6 +56,18 @@ RSpec.describe RuboCop do
     end
   end
 
+  it "ignores deleted files" do
+    gf.make_temp_repo do |dir|
+      setup_file_edits("foo.rb" => [initial_code], "bar.rb" => [initial_code])
+      gf.checkout_branch("my_branch")
+      gf.delete_file("foo.rb")
+
+      runner = RubocopRunner.new(dir)
+      runner.run("--only AbcSize")
+      check_runner(runner)
+    end
+  end
+
   def initial_code
     <<-_.outdent
       def my_method
@@ -83,7 +95,12 @@ RSpec.describe RuboCop do
   end
 
   def check_runner(runner, *filenames)
-    expect(runner.result).to eq RuboCop::CLI::STATUS_OFFENSES
+    expected_result = if filenames.empty?
+                        RuboCop::CLI::STATUS_SUCCESS
+                      else
+                        RuboCop::CLI::STATUS_OFFENSES
+                      end
+    expect(runner.result).to eq expected_result
     expect(runner.output_lines).to eq runner.file_lines(*filenames)
   end
 
