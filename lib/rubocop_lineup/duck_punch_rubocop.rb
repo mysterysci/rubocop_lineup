@@ -9,16 +9,19 @@ module DuckPunch
       files_hash = RubocopLineup.line_em_up(Dir.pwd)
       return false unless files_hash.key?(source_file)
 
-      offending_lines = (line_number..last_line).to_a
+      offending_lines = (line_number..(last_line || line_number)).to_a
       changed_line_numbers = files_hash[source_file]
       (changed_line_numbers & offending_lines).empty? ? false : super
     end
 
     def last_line
-      # find_location requires a location symbol in many cases, and usually
-      # this can be :expression, but each cop pretty much does its own thing
-      # so the hope is this method could be a definitive way to ID the end line.
-      processed_source.ast.loc.end.line
+      # `loc_end` will be nil in cases like Parser::Source::Map::Collection
+      # https://www.rubydoc.info/github/whitequark/parser/Parser/Source/Map/Collection
+      # which point to the entire file, but presumably won't have any range
+      # cops analyzing it (e.g. Gemfile is like this).
+
+      loc_end = processed_source.ast.loc.end
+      loc_end ? loc_end.line : nil
     end
   end
 

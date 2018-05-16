@@ -30,14 +30,6 @@ class GitFixture
     File.open(File.join(@dir, filename), "w") { |f| f.puts file_content }
   end
 
-  def diff
-    # A hack on the second arg here. The second arg is an optional `obj2`
-    # which is passed to the diff command as if you wanted to diff two
-    # shas. We're using it to pass this option through (it just happens to work)
-    # to get the more precise diff header to do the counts.
-    @git.diff("HEAD", "-U0")
-  end
-
   def commit_all(message = "test commit")
     @git.add(all: true)
     @git.commit(message, all: true)

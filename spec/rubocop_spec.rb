@@ -10,27 +10,36 @@ RSpec.describe RuboCop do
   end
 
   it "works with ranges" do
-    gf.make_temp_repo do |_dir|
+    gf.make_temp_repo do |dir|
       setup_file_edits("foo.rb" => [initial_code])
       gf.checkout_branch("my_branch")
       setup_file_edits("foo.rb" => [abc_code])
-      result = RuboCop::CLI.new.run(%w(-r rubocop_lineup -o /dev/null --only AbcSize))
-      expect(result).to eq RuboCop::CLI::STATUS_OFFENSES
+      runner = RubocopRunner.new(dir)
+      runner.run("--only AbcSize")
+      check_runner(runner, "foo.rb")
+    end
+  end
+
+  # this case was blowing up in an earlier implementation of last_line
+  it "won't blow up for single line cop in special circumstances" do
+    gf.make_temp_repo do |dir|
+      setup_file_edits("ignore.rb" => [initial_code])
+      gf.checkout_branch("my_branch")
+      setup_file_edits("Gemfile" => [gemfile])
+      runner = RubocopRunner.new(dir)
+      runner.run("--only StringLiterals")
+      check_runner(runner, "Gemfile")
     end
   end
 
   it "only checks changed files" do
     gf.make_temp_repo do |dir|
-      code = initial_code
-      setup_file_edits("foo.rb" => [code], "bar.rb" => [abc_code])
+      setup_file_edits("foo.rb" => [initial_code], "bar.rb" => [abc_code])
       gf.checkout_branch("my_branch")
       setup_file_edits("foo.rb" => [abc_code])
-      output = File.join(dir, "offense_files.txt")
-      args = "-r rubocop_lineup -f files -o #{output} --only AbcSize"
-      result = RuboCop::CLI.new.run(args.split(" "))
-      puts File.read output
-      expect(result).to eq RuboCop::CLI::STATUS_OFFENSES
-      expect(File.read(output).chomp).to eq File.join(dir, "foo.rb")
+      runner = RubocopRunner.new(dir)
+      runner.run("--only AbcSize")
+      check_runner(runner, "foo.rb")
     end
   end
 
@@ -40,19 +49,17 @@ RSpec.describe RuboCop do
       setup_file_edits("foo.rb" => [code], "bar.rb" => [code], "qux.rb" => [abc_code])
       gf.checkout_branch("my_branch")
       setup_file_edits("foo.rb" => [abc_code], "bar.rb" => [abc_code])
-      output = File.join(dir, "offense_files.txt")
-      args = "-r rubocop_lineup -f files -o #{output} --only AbcSize foo.rb"
-      result = RuboCop::CLI.new.run(args.split(" "))
-      puts File.read output
-      expect(result).to eq RuboCop::CLI::STATUS_OFFENSES
-      expect(File.read(output).chomp).to eq File.join(dir, "foo.rb")
+
+      runner = RubocopRunner.new(dir)
+      runner.run("--only AbcSize foo.rb")
+      check_runner(runner, "foo.rb")
     end
   end
 
   def initial_code
     <<-_.outdent
       def my_method
-        # comment
+        a = 'foo'
       end
     _
   end
@@ -65,5 +72,43 @@ RSpec.describe RuboCop do
         a, b, c, d = (1..4).to_a
       end
     _
+  end
+
+  def gemfile
+    <<-_.outdent
+      source 'https://rubygems.org'
+
+      ruby '~> 2.4.0'
+    _
+  end
+
+  def check_runner(runner, *filenames)
+    expect(runner.result).to eq RuboCop::CLI::STATUS_OFFENSES
+    expect(runner.output_lines).to eq runner.file_lines(*filenames)
+  end
+
+  class RubocopRunner
+    attr_reader :result
+
+    def initialize(dir)
+      @dir = dir
+    end
+
+    def run(args)
+      args = "-r rubocop_lineup -f files -o #{output} #{args}"
+      @result = RuboCop::CLI.new.run(args.split(" "))
+    end
+
+    def output
+      File.join(@dir, "offense_files.txt")
+    end
+
+    def output_lines
+      File.readlines(output).map(&:chomp)
+    end
+
+    def file_lines(*args)
+      args.map { |filename| File.join(@dir, filename) }
+    end
   end
 end
