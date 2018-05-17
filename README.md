@@ -1,5 +1,7 @@
 # RubocopLineup
 
+[![Build Status](https://travis-ci.com/mysterysci/rubocop_lineup.svg?branch=master)](https://travis-ci.com/mysterysci/rubocop_lineup)
+
 ![Image of Old-Timey Police Lineup](https://upload.wikimedia.org/wikipedia/commons/0/04/Oppstilling-2.jpg)
 
 If yer trying to bring in a new sheriff to the wild, wild west of your legacy codebase,
