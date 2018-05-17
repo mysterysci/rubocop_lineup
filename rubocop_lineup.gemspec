@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = "~> 2.1"
 
   spec.add_dependency "git", "~> 1.3"
-  spec.add_dependency "rubocop", "~> 0.55"
+  spec.add_dependency "rubocop", "~> 0.35"
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "pry"
