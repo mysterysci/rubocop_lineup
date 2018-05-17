@@ -68,6 +68,14 @@ RSpec.describe RuboCop do
     end
   end
 
+  it "confirm exit values" do
+    if defined?(RuboCop::CLI::STATUS_SUCCESS)
+      expect(RuboCop::CLI::STATUS_SUCCESS).to eq 0
+      expect(RuboCop::CLI::STATUS_OFFENSES).to eq 1
+      expect(RuboCop::CLI::STATUS_ERROR).to eq 2
+    end
+  end
+
   def initial_code
     <<-_.outdent
       def my_method
@@ -95,11 +103,7 @@ RSpec.describe RuboCop do
   end
 
   def check_runner(runner, *filenames)
-    expected_result = if filenames.empty?
-                        RuboCop::CLI::STATUS_SUCCESS
-                      else
-                        RuboCop::CLI::STATUS_OFFENSES
-                      end
+    expected_result = filenames.empty? ? 0 : 1
     expect(runner.result).to eq expected_result
     expect(runner.output_lines).to eq runner.file_lines(*filenames)
   end
