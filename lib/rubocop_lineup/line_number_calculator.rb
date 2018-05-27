@@ -6,9 +6,7 @@ module RubocopLineup
     # presumes the text has been parsed already to just the -/+ bits
     # e.g. "-1 +1"
     def self.git_line_summary_to_numbers(text)
-      # TODO: Ruby Golf this - a regex with proper grouping could probably be better.
-      _changed, added = text.split(/ /).reject(&:empty?)
-      start, count = added.sub(/^-/, "").split(/,/).map(&:to_i)
+      start, count = text.scan(/\+(.*)/).join.scan(/\d+/).flatten.map(&:to_i)
       count ||= 1
       (start..(start + count - 1)).to_a
     end
