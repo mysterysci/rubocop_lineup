@@ -9,9 +9,16 @@ module DuckPunch
       files_hash = RubocopLineup.line_em_up(Dir.pwd)
       return false unless files_hash.key?(source_file)
 
-      offending_lines = (line_number..(last_line || line_number)).to_a
       changed_line_numbers = files_hash[source_file]
-      (changed_line_numbers & offending_lines).empty? ? false : super
+      changed_line_numbers.include?(line_number) ? super : false
+
+      # Removing support for any line of a block where one or more lines were changed.
+      # It's too unpredictable. Linter cops should probably never do this, but I'm
+      # not sure how to go about that right now.
+      #
+      # offending_lines = (line_number..(last_line || line_number)).to_a
+      # changed_line_numbers = files_hash[source_file]
+      # (changed_line_numbers & offending_lines).empty? ? false : super
     end
 
     def last_line

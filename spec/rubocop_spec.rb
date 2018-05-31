@@ -9,14 +9,16 @@ RSpec.describe RuboCop do
     RubocopLineup.reset
   end
 
-  it "works with ranges" do
+  # Backing out support for ranges because it gets squirrely with
+  # large blocks in Rails files like routes.rb or some controllers.
+  it "does not work with ranges" do
     gf.make_temp_repo do |dir|
       setup_file_edits("foo.rb" => [initial_code])
       gf.checkout_branch("my_branch")
       setup_file_edits("foo.rb" => [abc_code])
       runner = RubocopRunner.new(dir)
       runner.run("--only AbcSize")
-      check_runner(runner, "foo.rb")
+      check_runner(runner)
     end
   end
 
@@ -34,11 +36,11 @@ RSpec.describe RuboCop do
 
   it "only checks changed files" do
     gf.make_temp_repo do |dir|
-      setup_file_edits("foo.rb" => [initial_code], "bar.rb" => [abc_code])
+      setup_file_edits("foo.rb" => [initial_code], "bar.rb" => [and_or_code])
       gf.checkout_branch("my_branch")
-      setup_file_edits("foo.rb" => [abc_code])
+      setup_file_edits("foo.rb" => [and_or_code])
       runner = RubocopRunner.new(dir)
-      runner.run("--only AbcSize")
+      runner.run("--only AndOr")
       check_runner(runner, "foo.rb")
     end
   end
@@ -46,12 +48,12 @@ RSpec.describe RuboCop do
   it "only checks changed files included in args" do
     gf.make_temp_repo do |dir|
       code = initial_code
-      setup_file_edits("foo.rb" => [code], "bar.rb" => [code], "qux.rb" => [abc_code])
+      setup_file_edits("foo.rb" => [code], "bar.rb" => [code], "qux.rb" => [and_or_code])
       gf.checkout_branch("my_branch")
-      setup_file_edits("foo.rb" => [abc_code], "bar.rb" => [abc_code])
+      setup_file_edits("foo.rb" => [and_or_code], "bar.rb" => [and_or_code])
 
       runner = RubocopRunner.new(dir)
-      runner.run("--only AbcSize foo.rb")
+      runner.run("--only AndOr foo.rb")
       check_runner(runner, "foo.rb")
     end
   end
@@ -63,7 +65,7 @@ RSpec.describe RuboCop do
       gf.delete_file("foo.rb")
 
       runner = RubocopRunner.new(dir)
-      runner.run("--only AbcSize")
+      runner.run("--only AndOr")
       check_runner(runner)
     end
   end
@@ -90,6 +92,14 @@ RSpec.describe RuboCop do
         a, b, c, d = (1..4).to_a
         a, b, c, d = (1..4).to_a
         a, b, c, d = (1..4).to_a
+      end
+    _
+  end
+
+  def and_or_code
+    <<-_.outdent
+      def my_method
+        puts "hey" if true and false
       end
     _
   end
