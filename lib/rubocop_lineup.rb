@@ -6,13 +6,13 @@ require "rubocop_lineup/diff_liner"
 require "rubocop_lineup/duck_punch_rubocop"
 
 module RubocopLineup
-  # This defaults the parent branch to 'master'. This is a reasonable
+  # This defaults the parent branch to 'origin/master'. This is a reasonable
   # default, but not always accurate. Unfortunately, due to the nature
   # of git, there is no 100% deterministic way to know the name of the
   # parent branch. There are ways to calculate the parent branch name
   # that cover common cases, but that's more complicated and may be added
   # in a future version.
-  def self.line_em_up(directory, parent_branch = "master")
+  def self.line_em_up(directory, parent_branch = "origin/master")
     @line_em_up ||= begin
       Dir.chdir(directory) do
         uncommitted = DiffLiner.diff_uncommitted.file_line_changes
