@@ -2,6 +2,10 @@ appraise "rubocop-latest" do
   gem "rubocop"
 end
 
+appraise "rubocop-0.58.2" do
+  gem "rubocop", "0.58.2"
+end
+
 appraise "rubocop-0.56.0" do
   gem "rubocop", "0.56.0"
 end
