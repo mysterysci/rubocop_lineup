@@ -42,4 +42,8 @@ class GitFixture
   def checkout_branch(branch)
     git.branch(branch).checkout
   end
+
+  def setup_origin
+    git.add_remote("origin", "url://")
+  end
 end

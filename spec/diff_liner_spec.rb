@@ -70,9 +70,10 @@ RSpec.describe RubocopLineup::DiffLiner do
     it "single changed line" do
       gf.make_temp_repo do |dir|
         setup_file_edits("a.txt" => [%w(a b c)])
-        gf.checkout_branch("my_branch")
+        gf.setup_origin
+        gf.checkout_branch("origin/my_branch")
         setup_file_edits("a.txt" => [%w(a b c d e f)])
-        dl = RubocopLineup::DiffLiner.diff_branch("origin/master", dir).strip_root!
+        dl = RubocopLineup::DiffLiner.diff_branch("master", dir).strip_root!
         expect(dl.filenames).to eq ["a.txt"]
         expect(dl.file_line_changes["a.txt"]).to eq [4, 5, 6]
       end
