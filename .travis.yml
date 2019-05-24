@@ -1,13 +1,14 @@
 language: ruby
 
 rvm:
-  - 2.2.10
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
+  - 2.3.8
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
 
 gemfile:
   - gemfiles/rubocop_latest.gemfile
+  - gemfiles/rubocop_0.69.0.gemfile
   - gemfiles/rubocop_0.58.2.gemfile
   - gemfiles/rubocop_0.56.0.gemfile
   - gemfiles/rubocop_0.52.1.gemfile
@@ -15,4 +16,4 @@ gemfile:
   - gemfiles/rubocop_0.35.1.gemfile
 
 
-before_install: gem install bundler -v 1.16.2
+before_install: gem install bundler -v 1.17.3

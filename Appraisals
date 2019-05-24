@@ -1,5 +1,11 @@
+# frozen_string_literal: true
+
 appraise "rubocop-latest" do
   gem "rubocop"
+end
+
+appraise "rubocop-0.69.0" do
+  gem "rubocop", "0.69.0"
 end
 
 appraise "rubocop-0.58.2" do
