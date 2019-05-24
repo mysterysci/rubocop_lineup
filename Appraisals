@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 appraise "rubocop-latest" do
   gem "rubocop"
 end
