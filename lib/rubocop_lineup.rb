@@ -12,7 +12,10 @@ module RubocopLineup
   # parent branch. There are ways to calculate the parent branch name
   # that cover common cases, but that's more complicated and may be added
   # in a future version.
-  def self.line_em_up(directory, parent_branch = "master")
+  def self.line_em_up(directory, parent_branch = nil)
+    git = Git.open(directory)
+    parent_branch = git.config("rubocop-lineup.branch")
+    parent_branch = "master" if parent_branch.empty?
     @line_em_up ||= begin
       Dir.chdir(directory) do
         uncommitted = DiffLiner.diff_uncommitted.file_line_changes
