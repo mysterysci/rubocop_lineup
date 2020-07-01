@@ -7,12 +7,15 @@ rvm:
 
 gemfile:
   - gemfiles/rubocop_latest.gemfile
+  - gemfiles/rubocop_0.86.0.gemfile
+  - gemfiles/rubocop_0.82.0.gemfile
+  - gemfiles/rubocop_0.77.0.gemfile
   - gemfiles/rubocop_0.69.0.gemfile
+  - gemfiles/rubocop_0.61.1.gemfile
   - gemfiles/rubocop_0.58.2.gemfile
   - gemfiles/rubocop_0.56.0.gemfile
   - gemfiles/rubocop_0.52.1.gemfile
   - gemfiles/rubocop_0.46.0.gemfile
-  - gemfiles/rubocop_0.35.1.gemfile
 
 
 before_install: gem install bundler -v 1.17.3
