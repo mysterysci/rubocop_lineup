@@ -13,3 +13,6 @@
 .rspec_status
 
 Gemfile.lock
+
+# Don't commit built gems
+*.gem
