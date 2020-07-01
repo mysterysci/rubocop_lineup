@@ -17,7 +17,7 @@ RSpec.describe RuboCop do
       gf.checkout_branch("my_branch")
       setup_file_edits("foo.rb" => [abc_code])
       runner = RubocopRunner.new(dir)
-      runner.run("--only AbcSize")
+      runner.run("--only Metrics/AbcSize")
       check_runner(runner)
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe RuboCop do
       gf.checkout_branch("my_branch")
       setup_file_edits("Gemfile" => [gemfile])
       runner = RubocopRunner.new(dir)
-      runner.run("--only StringLiterals")
+      runner.run("--only Sytle/StringLiterals")
       check_runner(runner, "Gemfile")
     end
   end
@@ -40,7 +40,7 @@ RSpec.describe RuboCop do
       gf.checkout_branch("my_branch")
       setup_file_edits("foo.rb" => [and_or_code])
       runner = RubocopRunner.new(dir)
-      runner.run("--only AndOr")
+      runner.run("--only Style/AndOr")
       check_runner(runner, "foo.rb")
     end
   end
@@ -53,7 +53,7 @@ RSpec.describe RuboCop do
       setup_file_edits("foo.rb" => [and_or_code], "bar.rb" => [and_or_code])
 
       runner = RubocopRunner.new(dir)
-      runner.run("--only AndOr foo.rb")
+      runner.run("--only Style/AndOr foo.rb")
       check_runner(runner, "foo.rb")
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe RuboCop do
       gf.delete_file("foo.rb")
 
       runner = RubocopRunner.new(dir)
-      runner.run("--only AndOr")
+      runner.run("--only 'Style/AndOr'")
       check_runner(runner)
     end
   end
