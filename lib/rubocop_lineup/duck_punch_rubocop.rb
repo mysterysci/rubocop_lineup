@@ -33,9 +33,14 @@ module DuckPunch
   end
 
   module TargetFinder
-    def find(args)
+    def find(args, mode=nil)
       # returns an array of full file paths that are the files to inspect.
-      files = super(args)
+      if mode
+        files = super(args, mode)
+      else
+        # legacy support before mode was added in rubocop
+        files = super(args)
+      end
       files_hash = RubocopLineup.line_em_up(Dir.pwd)
       files & files_hash.keys
     end
