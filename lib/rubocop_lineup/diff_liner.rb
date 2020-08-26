@@ -43,7 +43,7 @@ module RubocopLineup
 
     def process_diff_file(diff_file)
       [File.join(@dir, diff_file.path),
-       calc_line_numbers(diff_file.patch.scan(/@@(.*)@@/).flatten)]
+       calc_line_numbers(diff_file.patch.scan(/^@@(.*)@@/).flatten)]
     end
 
     def calc_line_numbers(diff_line_summaries)
